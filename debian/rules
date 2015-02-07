@@ -36,6 +36,7 @@ URL := http://downloads.asterisk.org/pub/telephony/$(PACKAGE_SRC)/releases/$(PAC
 # around problems with bilding stuff with HOSTCC by simply providing 
 # the generated headers as part of the source:
 GENERATED_SOURCES := include/dahdi/version.h
+BUILD_DATE=$(shell dpkg-parsechangelog --show-field Date)
 
 %:
 	dh $@
@@ -105,7 +106,7 @@ override_dh_install:
 	  $(TARDIR)/debian/
 	
 	tar cjf debian/$(SKPG)/usr/src/$(PREFIX).tar.bz2 \
-	  -C $(TARPARDIR) modules
+	  -C $(TARPARDIR) modules --mtime="$(BUILD_DATE)"
 
 print-version:
 	@@echo "Debian version:          $(DEBVERSION)"
