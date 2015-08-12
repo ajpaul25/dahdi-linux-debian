@@ -3,7 +3,7 @@
 # debian/modulestest: a postbuild script to build dahdi modules
 # example usage:
 #  
-#  svn-buildpackage --svn-postbuild='debian/modulestest -r' --svn-ignore-new 
+#  gbp buildpackage --git-postbuild='debian/modulestest -r'
 #
 #  debuild  --post-dpkg-buildpackage-hook="$PWD/debian/modulestest -d %v -r"
 #
@@ -55,20 +55,21 @@ echo "Building for: Headers: $KERNEL_HEADERS, Sources: $KERNEL_SOURCES"
 if [ "$KERNEL_HEADERS" != '' ]; then hdrs_sw="-l $KERNEL_HEADERS"; fi
 if [ "$KERNEL_SOURCES" != '' ]; then srcs_sw="-k $KERNEL_SOURCES"; fi
 
+DEB_NAME=`awk '/dahdi-source_/ {print $3}' $GBP_CHANGES_FILE | head -n1`
+DEB_VERSION=`awk -F: '/^Version:/ {print $3}' $GBP_CHANGES_FILE`
 # must be absolute for m-a ta accept TARBALL:
 # Also note that $PWD is ugly and is about to be deleted. We need
 # $PWD/.. 
+
 if [ "$DEBUILD_VERSION" != '' ]; then
 	TOP_DIR="$PWD"
-	TAG_VERSION=`echo $DEBUILD_VERSION | sed -e 's/.*://'`
 else
 	TOP_DIR=`dirname $PWD`
 fi
 MODS_DIR=$TOP_DIR/modules
 SRC_DIR=$MODS_DIR/usr/src
 TAR_BALL=$SRC_DIR/$PACKAGE.tar.bz2
-DEB_VERSION=${TAG_VERSION#*:}
-DEB=$TOP_DIR/$PACKAGE-source_${DEB_VERSION}_all.deb
+DEB="$TOP_DIR/$DEB_NAME"
 LOG_FILE=$TOP_DIR/$PACKAGE-modules-build-$DEB_VERSION.log
 
 rm -f $LOG_FILE
