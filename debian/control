@@ -12,11 +12,7 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-voip/dahdi-linux.git
 Package: dahdi-linux
 Architecture: all
 Multi-Arch: foreign
-# Xorcom packages depend on dahdi-firmware. Debian zaptel will probably 
-# just recommend it.
 Depends: ${misc:Depends}, procps, fxload
-Replaces: zaptel
-Conflicts: zaptel
 Description: DAHDI telephony interface - Linux userspace parts
  DAHDI (formly Zaptel) is an interface for telephony devices used by e.g. 
  the Asterisk PBX software. The dahdi-* packages provide the kernel 
