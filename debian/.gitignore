@@ -1,0 +1,10 @@
+dahdi-linux.debhelper.log
+dahdi-linux.postinst.debhelper
+dahdi-linux.preinst.debhelper
+dahdi-linux.substvars
+dahdi-linux/
+dahdi-source.debhelper.log
+dahdi-source.substvars
+dahdi-source/
+files
+tmp/
