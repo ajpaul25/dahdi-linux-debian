@@ -1,0 +1,15 @@
+Description: Remove a bodus "test" target
+Author: Tzafrir Cohen <tzafrir.cohen@xorcom.com>
+
+--- a/Makefile
++++ b/Makefile
+@@ -190,9 +190,6 @@ dist-clean: clean
+ firmware-download:
+ 	@$(MAKE) -C drivers/dahdi/firmware all
+ 
+-test:
+-	./test-script $(DESTDIR)/lib/modules/$(KVERS) dahdi
+-
+ docs: $(GENERATED_DOCS)
+ 
+ README.html: README

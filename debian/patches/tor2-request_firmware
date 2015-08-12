@@ -1,0 +1,87 @@
+Author: Ben Hutchings <ben@decadent.org.uk>
+Description: tor2: Use request_firmware() to load bitfile
+Bug-Debian: http://bugs.debian.org/693666
+
+Non-free bits belong in separate (source & binary) packages.
+This driver must use request_firmware() to load the FPGA bitfile.
+
+---
+--- a/drivers/dahdi/tor2.c
++++ b/drivers/dahdi/tor2.c
+@@ -31,11 +31,11 @@
+ #include <linux/interrupt.h>
+ #include <linux/moduleparam.h>
+ #include <linux/slab.h>
++#include <linux/firmware.h>
+ 
+ #include <dahdi/kernel.h>
+ #define NEED_PCI_IDS
+ #include "tor2-hw.h"
+-#include "tor2fw.h"
+ 
+ /*
+  * Tasklets provide better system interactive response at the cost of the
+@@ -379,6 +379,7 @@ static int __devinit tor2_probe(struct p
+ 	unsigned long endjif;
+ 	__iomem volatile unsigned long *gpdata_io, *lasdata_io;
+ 	unsigned long gpdata,lasdata;
++	const struct firmware *bitfile;
+ 
+ 	res = pci_enable_device(pdev);
+ 	if (res)
+@@ -439,6 +440,11 @@ static int __devinit tor2_probe(struct p
+ 		       tor->xilinx8_len, tor->xilinx8_region);
+ 		goto err_out_release_plx_region;
+ 	}
++	res = request_firmware(&bitfile, "dahdi-fw-tor2.bin", &pdev->dev);
++	if (res) {
++		ret = res;
++		goto err_out_release_all_regions;
++	}
+ 	pci_set_drvdata(pdev, tor);
+ 	printk(KERN_INFO "Detected %s at 0x%lx/0x%lx irq %d\n", tor->type, 
+ 		tor->xilinx32_region, tor->xilinx8_region,tor->irq);
+@@ -490,10 +496,10 @@ static int __devinit tor2_probe(struct p
+ 	/* assert WRITE signal */
+ 	gpdata &= ~GPIO_WRITE;
+ 	writel(gpdata, gpdata_io);
+-	for (x = 0; x < sizeof(tor2fw); x++)
++	for (x = 0; x < bitfile->size; x++)
+ 	   {
+ 		  /* write the byte */
+-		writeb(tor2fw[x], tor->mem8);
++		writeb(bitfile->data[x], tor->mem8);
+ 		  /* if DONE signal, we're done, exit */
+ 		if (readl(gpdata_io) & GPIO_DONE)
+ 			break;
+@@ -612,9 +618,12 @@ static int __devinit tor2_probe(struct p
+ 			break;
+ 	}
+ 
++	release_firmware(bitfile);
+ 	return 0;
+ 
+ err_out_release_all:
++	release_firmware(bitfile);
++err_out_release_all_regions:
+ 	release_mem_region(tor->xilinx32_region, tor->xilinx32_len);
+ 	release_mem_region(tor->xilinx8_region, tor->xilinx8_len);
+ err_out_release_plx_region:
+--- a/drivers/dahdi/Kbuild
++++ b/drivers/dahdi/Kbuild
+@@ -167,14 +167,10 @@ obj-$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_ECH
+ endif
+ 
+ $(obj)/pciradio.o: $(obj)/radfw.h
+-$(obj)/tor2.o: $(obj)/tor2fw.h
+ 
+ hostprogs-y := makefw
+ 
+-$(obj)/tor2fw.h: $(src)/tormenta2.rbt $(obj)/makefw 
+-	$(obj)/makefw $< tor2fw > $@
+-
+ $(obj)/radfw.h: $(src)/pciradio.rbt $(obj)/makefw
+ 	$(obj)/makefw $< radfw > $@
+ 
+-clean-files	:= radfw.h tor2fw.h
++clean-files	:= radfw.h

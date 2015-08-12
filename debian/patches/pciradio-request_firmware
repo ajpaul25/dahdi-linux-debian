@@ -1,0 +1,135 @@
+Author: Ben Hutchings <ben@decadent.org.uk>
+Description: pciradio: Use request_firmware() to load bitfile
+Bug-Debian: http://bugs.debian.org/693666
+
+Non-free bits belong in separate (source & binary) packages.
+This driver must use request_firmware() to load the FPGA bitfile.
+
+---
+--- a/drivers/dahdi/pciradio.c
++++ b/drivers/dahdi/pciradio.c
+@@ -51,6 +51,7 @@ With driver:	303826  (1.5 %)
+ #include <linux/moduleparam.h>
+ #include <linux/sched.h>
+ #include <linux/slab.h>
++#include <linux/firmware.h>
+ #include <linux/delay.h>
+ #include <asm/io.h>
+ #include <asm/delay.h> 
+@@ -220,8 +221,6 @@ struct tonedef {
+ 	unsigned char b2;
+ } ;
+ 
+-#include "radfw.h"
+-
+ static struct tonedef cttable_tx [] = {
+ {0,0,0},
+ {670,0xE,0xB1},
+@@ -1505,9 +1504,18 @@ static void wait_just_a_bit(int foo)
+ 
+ static int pciradio_hardware_init(struct pciradio *rad)
+ {
++const struct firmware *bitfile;
+ unsigned char byte1,byte2;
+ int	x;
+ unsigned long endjif;
++int res;
++
++	res = request_firmware(&bitfile, "dahdi-fw-pciradio.bin",
++			       &rad->dev->dev);
++	if (res)
++		return res;
++
++	res = -EIO;
+ 
+ 	/* Signal Reset */
+ 	outb(0x01, rad->ioaddr + RAD_CNTL);
+@@ -1539,7 +1547,7 @@ unsigned long endjif;
+ 	while (inb(rad->ioaddr + RAD_AUXR) & (XINIT | XDONE) && (jiffies <= endjif));
+ 	if (endjif < jiffies) {
+ 		printk(KERN_DEBUG "Timeout waiting for INIT and DONE to go low\n");
+-		return -1;
++		goto out;
+ 	}
+ 	if (debug) printk(KERN_DEBUG "fwload: Init and done gone to low\n");
+ 	/* De-assert PGM */
+@@ -1550,16 +1558,16 @@ unsigned long endjif;
+ 	while (!(inb(rad->ioaddr + RAD_AUXR) & XINIT) && (jiffies <= endjif));
+ 	if (endjif < jiffies) {
+ 		printk(KERN_DEBUG "Timeout waiting for INIT to go high\n");
+-		return -1;
++		goto out;
+ 	}
+ 	if (debug) printk(KERN_DEBUG "fwload: Init went high (clearing done)\nNow loading...\n");
+ 	/* Assert CS+Write */
+ 	rad->ios &= ~XCS;
+ 	outb(rad->ios, rad->ioaddr + RAD_AUXD);
+-	for (x = 0; x < sizeof(radfw); x++)
++	for (x = 0; x < bitfile->size; x++)
+ 	   {
+ 		  /* write the byte */
+-		outb(radfw[x],rad->ioaddr + RAD_REGBASE);
++		outb(bitfile->data[x], rad->ioaddr + RAD_REGBASE);
+ 		  /* if DONE signal, we're done, exit */
+ 		if (inb(rad->ioaddr + RAD_AUXR) & XDONE) break;
+ 		  /* if INIT drops, we're screwed, exit */
+@@ -1580,12 +1588,12 @@ unsigned long endjif;
+ 	if (!(inb(rad->ioaddr + RAD_AUXR) & XINIT))
+ 	   {
+ 		printk(KERN_NOTICE "Drove Init low!! CRC Error!!!\n");
+-		return -1;
++		goto out;
+ 	   }
+ 	if (!(inb(rad->ioaddr + RAD_AUXR) & XDONE))
+ 	   {
+ 		printk(KERN_INFO "Did not get DONE signal. Short file maybe??\n");
+-		return -1;
++		goto out;
+ 	   }
+ 	wait_just_a_bit(2);
+ 	/* get the thingy started */
+@@ -1646,7 +1654,10 @@ unsigned long endjif;
+ 	/* Wait 1/4 of a sec */
+ 	wait_just_a_bit(HZ/4);
+ 
+-	return 0;
++	res = 0;
++out:
++	release_firmware(bitfile);
++	return res;
+ }
+ 
+ static void pciradio_enable_interrupts(struct pciradio *rad)
+@@ -1765,7 +1776,8 @@ static int __devinit pciradio_init_one(s
+ 			/* Keep track of which device we are */
+ 			pci_set_drvdata(pdev, rad);
+ 
+-			if (pciradio_hardware_init(rad)) {
++			res = pciradio_hardware_init(rad);
++			if (res) {
+ 				/* Set Reset Low */
+ 				x=inb(rad->ioaddr + RAD_CNTL);
+ 				outb((~0x1)&x, rad->ioaddr + RAD_CNTL);
+@@ -1780,7 +1792,7 @@ static int __devinit pciradio_init_one(s
+ 				pci_set_drvdata(pdev, NULL);
+ 				dahdi_free_device(rad->ddev);
+ 				kfree(rad);
+-				return -EIO;
++				return res;
+ 
+ 			}
+ 
+--- a/drivers/dahdi/Kbuild
++++ b/drivers/dahdi/Kbuild
+@@ -166,11 +166,4 @@ ifeq ($(HPEC_PRESENT),yes)
+ obj-$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_ECHOCAN_HPEC)	+= dahdi_echocan_hpec.o
+ endif
+ 
+-$(obj)/pciradio.o: $(obj)/radfw.h
+-
+ hostprogs-y := makefw
+-
+-$(obj)/radfw.h: $(src)/pciradio.rbt $(obj)/makefw
+-	$(obj)/makefw $< radfw > $@
+-
+-clean-files	:= radfw.h

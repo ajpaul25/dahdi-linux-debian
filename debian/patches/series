@@ -1,0 +1,8 @@
+# Mega-patch of extra drivers:
+dahdi_linux_extra
+no_firmware_download
+chanmute
+notest
+tor2-request_firmware
+pciradio-request_firmware
+hotplug_mod_params
