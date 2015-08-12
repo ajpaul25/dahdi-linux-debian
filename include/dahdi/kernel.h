@@ -76,10 +76,6 @@
 #define HAVE_NET_DEVICE_OPS
 #endif
 
-#define DAHDI_IRQ_SHARED IRQF_SHARED
-#define DAHDI_IRQ_DISABLED IRQF_DISABLED
-#define DAHDI_IRQ_SHARED_DISABLED IRQF_SHARED | IRQF_DISABLED
-
 #if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 26)
 #  ifdef RHEL_RELEASE_VERSION
 #    if RHEL_RELEASE_CODE < RHEL_RELEASE_VERSION(5, 6)
@@ -1408,6 +1404,17 @@ static inline short dahdi_txtone_nextsample(struct dahdi_chan *ss)
 /*! Maximum audio mask */
 #define DAHDI_FORMAT_AUDIO_MASK	((1 << 16) - 1)
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 16, 0)
+
+/* DAHDI only was using the xxx_clear_bit variants. */
+#ifndef smp_mb__before_atomic
+#define smp_mb__before_atomic smp_mb__before_clear_bit
+#endif
+
+#ifndef smp_mb__after_atomic
+#define smp_mb__after_atomic smp_mb__after_clear_bit
+#endif
+
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 0)
 #ifdef RHEL_RELEASE_VERSION
 #if RHEL_RELEASE_CODE < RHEL_RELEASE_VERSION(6, 5)
@@ -1491,6 +1498,8 @@ void dahdi_pci_disable_link_state(struct pci_dev *pdev, int state);
 #define list_first_entry(ptr, type, member) \
 	list_entry((ptr)->next, type, member)
 
+#define strncasecmp strnicmp
+
 #ifndef __packed
 #define __packed  __attribute__((packed))
 #endif 
@@ -1523,6 +1532,7 @@ static inline int strcasecmp(const char *s1, const char *s2)
 #endif /* 2.6.27 */
 #endif /* 2.6.31 */
 #endif /* 3.10.0 */
+#endif /* 3.16.0 */
 
 #ifndef DEFINE_SPINLOCK
 #define DEFINE_SPINLOCK(x)      spinlock_t x = SPIN_LOCK_UNLOCKED
@@ -1653,9 +1663,11 @@ struct mutex {
 				chan_printk(DEBUG, "-" #bits, chan, \
 					"%s: " fmt, __func__, ## __VA_ARGS__)))
 #define dahdi_dev_dbg(bits, dev, fmt, ...)         \
-			((void)((debug & (DAHDI_DBG_ ## bits)) && \
+		do { if (debug & (DAHDI_DBG_ ## bits)) { \
 			dev_printk(KERN_DEBUG, dev, \
-			"DBG-%s(%s): " fmt, #bits, __func__, ## __VA_ARGS__)))
+			"DBG-%s(%s): " fmt, #bits, __func__, ## __VA_ARGS__); \
+		} } while (0)
+
 #endif /* DAHDI_PRINK_MACROS_USE_debug */
 
 #endif /* _DAHDI_KERNEL_H */

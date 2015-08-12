@@ -66,7 +66,7 @@ static inline int delayed_work_pending(struct work_struct *work)
 
 static const char *TE435_FW_FILENAME = "dahdi-fw-te435.bin";
 static const char *TE436_FW_FILENAME = "dahdi-fw-te436.bin";
-static const u32 TE435_VERSION = 0xe0019;
+static const u32 TE435_VERSION = 0x13001e;
 static const u32 TE436_VERSION = 0x10017;
 
 /* #define RPC_RCLK */
@@ -3581,7 +3581,7 @@ static void __devexit t43x_remove_one(struct pci_dev *pdev)
 		return;
 
 	wc->not_ready = 1;
-	smp_mb__after_clear_bit();
+	smp_mb__after_atomic();
 
 	/* Stop everything */
 	wcxb_stop(&wc->xb);

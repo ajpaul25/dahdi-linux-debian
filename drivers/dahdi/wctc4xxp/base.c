@@ -375,6 +375,7 @@ struct wcdte {
 #endif
 	struct timer_list watchdog;
 	u16 open_channels;
+	unsigned long reported_packet_errors;
 };
 
 struct wcdte_netdev_priv {
@@ -2019,14 +2020,16 @@ wctc4xxp_disable_polling(struct wcdte *wc)
 
 static void wctc4xxp_check_for_rx_errors(struct wcdte *wc)
 {
-	static unsigned long last_errors = 0;
+	/* get_packet_errors() returns the accumulated total errors */
 	unsigned long errors = wctc4xxp_get_packet_errors(wc->rxd);
-	if (last_errors != errors) {
+
+	/* Print warning when the number of errors changes */
+	if (wc->reported_packet_errors != errors) {
 		if (printk_ratelimit()) {
 			dev_err(&wc->pdev->dev,
 				"%lu errored receive packets.\n",
-				errors - last_errors);
-			last_errors = errors;
+				errors - wc->reported_packet_errors);
+			wc->reported_packet_errors = errors;
 		}
 	}
 }
@@ -3867,6 +3870,7 @@ static int wctc4xxp_reset_driver_state(struct wcdte *wc)
 		release_firmware(firmware);
 	spin_lock_irqsave(&wc->rxd->lock, flags);
 	wc->rxd->packet_errors = 0;
+	wc->reported_packet_errors = 0;
 	spin_unlock_irqrestore(&wc->rxd->lock, flags);
 	return res;
 }
@@ -4105,7 +4109,7 @@ wctc4xxp_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
 	pci_set_master(pdev);
 	pci_set_drvdata(pdev, wc);
 	res = request_irq(pdev->irq, wctc4xxp_interrupt,
-		DAHDI_IRQ_SHARED, wc->board_name, wc);
+			  IRQF_SHARED, wc->board_name, wc);
 	if (res) {
 		dev_err(&wc->pdev->dev,
 			"Unable to request IRQ %d\n", pdev->irq);

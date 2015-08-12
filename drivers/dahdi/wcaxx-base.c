@@ -3823,7 +3823,7 @@ static void wcaxx_back_out_gracefully(struct wcaxx *wc)
 	unsigned long flags;
 
 	clear_bit(INITIALIZED, &wc->bit_flags);
-	smp_mb__after_clear_bit();
+	smp_mb__after_atomic();
 
 	/* Make sure we're not on the card list anymore. */
 	mutex_lock(&card_list_lock);
@@ -3886,9 +3886,9 @@ static int wcaxx_check_firmware(struct wcaxx *wc)
 	u32 firmware_version;
 	const bool force_firmware = false;
 	const unsigned int A4A_VERSION = 0x0a0017;
-	const unsigned int A4B_VERSION = 0x0b0019;
+	const unsigned int A4B_VERSION = 0x0d001e;
 	const unsigned int A8A_VERSION = 0x1d0017;
-	const unsigned int A8B_VERSION = 0x1d0019;
+	const unsigned int A8B_VERSION = 0x1f001e;
 
 	if (wc->desc == &device_a8a) {
 		firmware_version = A8A_VERSION;
