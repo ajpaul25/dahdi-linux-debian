@@ -1,10 +1,11 @@
-dahdi-linux (1:2.10.2~dfsg-1) UNRELEASED; urgency=medium
+dahdi-linux (1:2.10.2~dfsg-1) unstable; urgency=medium
 
   * New upstream release (Closes: #776497)
-    - dahdi_linux_extra patch: remove everything except OSLEC
+    - dahdi_linux_extra patch: remove everything except OSLEC and opvxa1200
       (Closes: #794313).
+    - Up-to-date opvxa1200 in extra patch (Closes: #780997)
 
- -- Tzafrir Cohen <tzafrir@debian.org>  Wed, 12 Aug 2015 12:15:00 +0200
+ -- Tzafrir Cohen <tzafrir@debian.org>  Wed, 12 Aug 2015 21:02:59 +0200
 
 dahdi-linux (1:2.10.0.1~dfsg-1) unstable; urgency=low
 
