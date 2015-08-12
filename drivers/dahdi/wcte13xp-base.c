@@ -45,7 +45,7 @@
 
 static const char *TE133_FW_FILENAME = "dahdi-fw-te133.bin";
 static const char *TE134_FW_FILENAME = "dahdi-fw-te134.bin";
-static const u32 TE133_FW_VERSION = 0x780019;
+static const u32 TE133_FW_VERSION = 0x7a001e;
 static const u32 TE134_FW_VERSION = 0x780017;
 
 #define WC_MAX_IFACES 8
@@ -1849,7 +1849,7 @@ static int t13x_set_linemode(struct dahdi_span *span, enum spantypes linemode)
 	clear_bit(INITIALIZED, &wc->bit_flags);
 	disable_irq(wc->xb.pdev->irq);
 
-	smp_mb__after_clear_bit();
+	smp_mb__after_atomic();
 	del_timer_sync(&wc->timer);
 	flush_workqueue(wc->wq);
 
@@ -2725,7 +2725,7 @@ static void __devexit te13xp_remove_one(struct pci_dev *pdev)
 		return;
 
 	clear_bit(INITIALIZED, &wc->bit_flags);
-	smp_mb__after_clear_bit();
+	smp_mb__after_atomic();
 
 	/* Quiesce DMA engine interrupts */
 	wcxb_stop(&wc->xb);
