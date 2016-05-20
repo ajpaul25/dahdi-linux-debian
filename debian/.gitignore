@@ -6,5 +6,6 @@ dahdi-linux/
 dahdi-source.debhelper.log
 dahdi-source.substvars
 dahdi-source/
+debhelper-build-stamp
 files
 tmp/
