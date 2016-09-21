@@ -1,0 +1,37 @@
+From e3a3d19d2a22ce397ed742bebb978795b902025f Mon Sep 17 00:00:00 2001
+From: Tzafrir Cohen <tzafrir.cohen@xorcom.com>
+Date: Wed, 21 Sep 2016 11:51:45 +0300
+Subject: [PATCH] wcfxo, wctdm: set spantype
+
+---
+ drivers/dahdi/wcfxo.c |    1 +
+ drivers/dahdi/wctdm.c |    1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/dahdi/wcfxo.c b/drivers/dahdi/wcfxo.c
+index b79d2fe..bf1d467 100644
+--- a/drivers/dahdi/wcfxo.c
++++ b/drivers/dahdi/wcfxo.c
+@@ -685,6 +685,7 @@ static int wcfxo_initialize(struct wcfxo *wc)
+ 
+ 	wc->chan->pvt = wc;
+ 	wc->span.ops = &wcfxo_span_ops;
++	wc->span.spantype = SPANTYPE_ANALOG_FXO;
+ 	list_add_tail(&wc->span.device_node, &wc->ddev->spans);
+ 	if (dahdi_register_device(wc->ddev, &wc->dev->dev)) {
+ 		printk(KERN_NOTICE "Unable to register span with DAHDI\n");
+diff --git a/drivers/dahdi/wctdm.c b/drivers/dahdi/wctdm.c
+index 9f43e52..cf5a537 100644
+--- a/drivers/dahdi/wctdm.c
++++ b/drivers/dahdi/wctdm.c
+@@ -2411,6 +2411,7 @@ static int wctdm_initialize(struct wctdm *wc)
+ 	wc->span.channels = NUM_CARDS;
+ 	wc->span.flags = DAHDI_FLAG_RBS;
+ 	wc->span.ops = &wctdm_span_ops;
++	wc->span.spantype = SPANTYPE_ANALOG_MIXED;
+ 
+ 	list_add_tail(&wc->span.device_node, &wc->ddev->spans);
+ 	if (dahdi_register_device(wc->ddev, &wc->dev->dev)) {
+-- 
+1.7.9.5
+
