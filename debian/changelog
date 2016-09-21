@@ -1,8 +1,18 @@
-dahdi-linux (1:2.11.1~dfsg-1) UNRELEASED; urgency=medium
+dahdi-linux (1:2.11.1~dfsg-1) unstable; urgency=medium
 
-  * New upstream release.
+  [ Tzafrir Cohen ]
+  * New upstream version
+  * Load the module dahdi at boot (Closes: #823302)
+  * README.Debian: purge old and update (Closes: #795458)
+  * Set spantype for wctdm and wcfxo (Closes: #823952)
+  * Use secure VCS URLs
+  * Ignore debian/debhelper-build-stamp
+  * Standards version 3.9.8 (no change needed)
 
- -- Tzafrir Cohen <tzafrir@debian.org>  Fri, 20 May 2016 11:34:36 +0300
+  [ Chris Lamb ]
+  * Reproducible build: sources tarball at build date (Closes: #776622)
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Wed, 21 Sep 2016 21:55:56 +0300
 
 dahdi-linux (1:2.10.2~dfsg-1) unstable; urgency=medium
 
