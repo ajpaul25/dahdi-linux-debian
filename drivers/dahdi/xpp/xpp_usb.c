@@ -890,6 +890,8 @@ static void xpp_send_callback(USB_PASS_CB(urb))
 	do_gettimeofday(&now);
 	xusb->last_tx = xframe->tv_submitted;
 	usec = usec_diff(&now, &xframe->tv_submitted);
+	if (usec < 0)
+		usec = 0; /* System clock jumped */
 	if (usec > xusb->max_tx_delay)
 		xusb->max_tx_delay = usec;
 	i = usec / USEC_BUCKET;
@@ -1022,7 +1024,6 @@ static int __init xpp_usb_init(void)
 	int ret;
 	//xusb_t *xusb;
 
-	INFO("revision %s\n", XPP_VERSION);
 	xusb_cache =
 	    kmem_cache_create("xusb_cache", sizeof(xframe_t) + XFRAME_DATASIZE,
 #if (LINUX_VERSION_CODE == KERNEL_VERSION(2, 6, 22)) && defined(CONFIG_SLUB)
@@ -1142,7 +1143,6 @@ static const struct file_operations xusb_read_proc_ops = {
 MODULE_DESCRIPTION("XPP USB Transport Driver");
 MODULE_AUTHOR("Oron Peled <oron@actcom.co.il>");
 MODULE_LICENSE("GPL");
-MODULE_VERSION(XPP_VERSION);
 
 module_init(xpp_usb_init);
 module_exit(xpp_usb_shutdown);

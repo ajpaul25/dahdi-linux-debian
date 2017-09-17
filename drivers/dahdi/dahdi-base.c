@@ -66,6 +66,11 @@
 /* Grab fasthdlc with tables */
 #define FAST_HDLC_NEED_TABLES
 #include <dahdi/kernel.h>
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 11, 0)
+#include <linux/sched/signal.h>
+#endif /* 4.11.0 */
+
 #include "ecdis.h"
 #include "dahdi.h"
 
@@ -2409,6 +2414,9 @@ static ssize_t dahdi_chan_read(struct file *file, char __user *usrbuf,
 	if (unlikely(count < 1))
 		return -EINVAL;
 
+	if (unlikely(!test_bit(DAHDI_FLAGBIT_REGISTERED, &chan->flags)))
+		return -ENODEV;
+
 	for (;;) {
 		spin_lock_irqsave(&chan->lock, flags);
 		if (chan->eventinidx != chan->eventoutidx) {
@@ -2525,6 +2533,9 @@ static ssize_t dahdi_chan_write(struct file *file, const char __user *usrbuf,
 
 	if (unlikely(count < 1))
 		return -EINVAL;
+
+	if (unlikely(!test_bit(DAHDI_FLAGBIT_REGISTERED, &chan->flags)))
+		return -ENODEV;
 
 	for (;;) {
 		spin_lock_irqsave(&chan->lock, flags);
