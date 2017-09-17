@@ -1,9 +1,10 @@
-dahdi-linux (1:2.11.1.0.20170917~dfsg-1) UNRELEASED; urgency=medium
+dahdi-linux (1:2.11.1.0.20170917~dfsg-1) unstable; urgency=medium
 
   * New upstream git snapshot (Closes: #872838)
     - debian/patches/wcfxo-wctdm-set-spantype.patch dropped: merged upsteram
+  * compat level 10
 
- -- Tzafrir Cohen <tzafrir@debian.org>  Sun, 17 Sep 2017 07:58:42 +0300
+ -- Tzafrir Cohen <tzafrir@debian.org>  Sun, 17 Sep 2017 12:05:42 +0300
 
 dahdi-linux (1:2.11.1~dfsg-1) unstable; urgency=medium
 
