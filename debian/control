@@ -3,7 +3,7 @@ Section: comm
 Priority: optional
 Maintainer: Debian VoIP Team <pkg-voip-maintainers@lists.alioth.debian.org>
 Uploaders: Tzafrir Cohen <tzafrir@debian.org>, Mark Purcell <msp@debian.org>
-Build-Depends: debhelper (>=  9), bzip2, asciidoc-base | asciidoc
+Build-Depends: debhelper (>=  10), bzip2, asciidoc-base | asciidoc
 Standards-Version: 3.9.8
 Homepage: http://www.asterisk.org/
 Vcs-Git: https://anonscm.debian.org/git/pkg-voip/dahdi-linux.git
