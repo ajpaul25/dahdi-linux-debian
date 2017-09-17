@@ -6,4 +6,3 @@ notest
 tor2-request_firmware
 pciradio-request_firmware
 hotplug_mod_params
-wcfxo-wctdm-set-spantype.patch
