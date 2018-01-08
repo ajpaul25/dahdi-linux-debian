@@ -5,7 +5,7 @@
 #  
 #  gbp buildpackage --git-postbuild='debian/modulestest -r'
 #
-#  debuild  --post-dpkg-buildpackage-hook="$PWD/debian/modulestest -d %v -r"
+#  debuild  --post-dpkg-buildpackage-hook="$PWD/debian/modulestest -v %v -r"
 #
 # At least one of the following two must be set to a sensible value:
 # If both are empty, the script does nothing useful)
@@ -37,7 +37,7 @@ while getopts ah:rs:tv: arg
 do
   case "$arg" in
     a) # All of the kernel-headers packages installed:
-        KERNEL_HEADERS=`COLUMNS=160 dpkg -l 'kernel-headers-2.[46].*-*-*' | awk '/^.i/{print $2}' | sed -e 's/^kernel-headers-//'| xargs| tr ' ' ,`
+        KERNEL_HEADERS=`COLUMNS=160 dpkg -l 'kernel-headers-[2-9].*-*-*' | awk '/^.i/{print $2}' | sed -e 's/^kernel-headers-//'| xargs| tr ' ' ,`
       ;;
     h) KERNEL_HEADERS=$OPTARG;;
     s) KERNEL_SOURCES=$OPTARG;;
@@ -55,6 +55,9 @@ echo "Building for: Headers: $KERNEL_HEADERS, Sources: $KERNEL_SOURCES"
 if [ "$KERNEL_HEADERS" != '' ]; then hdrs_sw="-l $KERNEL_HEADERS"; fi
 if [ "$KERNEL_SOURCES" != '' ]; then srcs_sw="-k $KERNEL_SOURCES"; fi
 
+if [ "$GBP_CHANGES_FILE" = '' ]; then
+	GBP_CHANGES_FILE=`ls -t dahdi-linux_$DEBUILD_VERSION_*.changes | head -n1`
+fi
 DEB_NAME=`awk '/dahdi-source_/ {print $3}' $GBP_CHANGES_FILE | head -n1`
 DEB_VERSION=`awk -F: '/^Version:/ {print $3}' $GBP_CHANGES_FILE`
 # must be absolute for m-a ta accept TARBALL:
