@@ -106,6 +106,7 @@ override_dh_install:
 	  $(TARDIR)/debian/
 	
 	tar cjf debian/$(SKPG)/usr/src/$(PREFIX).tar.bz2 \
+	  --sort=name \
 	  -C $(TARPARDIR) modules --mtime="$(BUILD_DATE)"
 
 print-version:
