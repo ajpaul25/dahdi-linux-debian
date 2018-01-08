@@ -1,3 +1,16 @@
+dahdi-linux (1:2.11.1.0.20170917~dfsg-2) unstable; urgency=medium
+
+  * Add dev_attr.patch: fix building with 4.13 (Closes: #879043)
+  * Refresh dahdi_linux_extra:
+    - Rebased on recent master
+    - also fix opvxa1200 with 4.11
+    - Tweaks of ZapHFC
+  * tar --sort=name for reproducible build for the dahdi-source tarball
+  * modulestest: fix usage with debuild
+  * Add gbp.conf: use pristine-tar
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Tue, 09 Jan 2018 23:56:22 +0200
+
 dahdi-linux (1:2.11.1.0.20170917~dfsg-1) unstable; urgency=medium
 
   * New upstream git snapshot (Closes: #872838)
