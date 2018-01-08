@@ -6,3 +6,4 @@ notest
 tor2-request_firmware
 pciradio-request_firmware
 hotplug_mod_params
+dev_attr.patch
