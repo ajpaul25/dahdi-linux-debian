@@ -1,4 +1,4 @@
-dahdi-linux (1:2.11.1.0.20170917~dfsg-2) unstable; urgency=medium
+dahdi-linux (1:2.11.1.0.20170917~dfsg-3) unstable; urgency=medium
 
   * Add dev_attr.patch: fix building with 4.13 (Closes: #879043)
   * Refresh dahdi_linux_extra:
@@ -8,8 +8,12 @@ dahdi-linux (1:2.11.1.0.20170917~dfsg-2) unstable; urgency=medium
   * tar --sort=name for reproducible build for the dahdi-source tarball
   * modulestest: fix usage with debuild
   * Add gbp.conf: use pristine-tar
+  * copyright: https standard URL
+  * Switch to Salsa.
+  * Standards version 4.1.3
+  * An example dynamic DAHDI systemd service
 
- -- Tzafrir Cohen <tzafrir@debian.org>  Tue, 09 Jan 2018 23:56:22 +0200
+ -- Tzafrir Cohen <tzafrir@debian.org>  Wed, 10 Jan 2018 23:40:10 +0200
 
 dahdi-linux (1:2.11.1.0.20170917~dfsg-1) unstable; urgency=medium
 
