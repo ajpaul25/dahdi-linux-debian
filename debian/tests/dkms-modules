@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#
+# Check DKMS installation
+#
+dkms status
+dkms status -k $(uname -r) | grep -q ": installed"
+if [ $? -ne 0 ]; then
+	echo "DKMS installation: failed for $(uname -r)!"
+	exit 1
+fi
+echo "DKMS installation: OK"
+
+#
+# Load the dummy module
+#
+modprobe dahdi_dummy
+
+if [ $? -ne 0 ]; then
+	echo "Dummy module load: failed!"
+	exit 1
+fi
+echo "Dummy module load: OK"
+
+exit 0
+

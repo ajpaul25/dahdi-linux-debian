@@ -13,7 +13,7 @@ Vcs-Browser: https://salsa.debian.org/pkg-voip-team/dahdi-linux.git
 Package: dahdi-linux
 Architecture: all
 Multi-Arch: foreign
-Depends: ${misc:Depends}, procps, fxload
+Depends: ${misc:Depends}, procps, fxload, dahdi-dkms | dahdi-source
 Description: DAHDI telephony interface - Linux userspace parts
  DAHDI (formly Zaptel) is an interface for telephony devices used by e.g. 
  the Asterisk PBX software. The dahdi-* packages provide the kernel 
@@ -35,3 +35,16 @@ Description: DAHDI telephony interface - source code for kernel driver
  basic headers for building DAHDI modules and utilities.
  .
  It is normally used to build kernel modules package: m-a a-i dahdi
+
+Package: dahdi-dkms
+Section: devel
+Architecture: all
+Depends: ${misc:Depends}, dkms, make, libc6-dev, gcc, wget, gawk
+Recommends: dahdi-linux
+Description: DAHDI telephony interface (dkms kernel driver)
+ DAHDI (formly Zaptel) is an interface for telephony devices used by e.g.
+ the Asterisk PBX software. The dahdi-* packages provide the kernel
+ DAHDI kernel modules and their required setup environment.
+ .
+ The dkms package will automatically compile the driver for your current
+ kernel version.

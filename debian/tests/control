@@ -1,0 +1,4 @@
+Tests: dkms-modules
+Depends: dahdi-dkms
+Restrictions: needs-root, isolation-machine
+

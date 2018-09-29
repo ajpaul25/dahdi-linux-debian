@@ -9,6 +9,9 @@ ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -g
 endif
 
+# For DKMS. Use the full release (e.g.: 2.2.1+dfsg-1ubuntu1)
+CVERSION := $(shell dpkg-parsechangelog | grep '^Version:' | cut -d' ' -f2 | cut -d\: -f2)
+
 ## MODULE-ASSISTANT STUFF
 # prefix of the target package name
 PREFIX:=dahdi
@@ -75,10 +78,19 @@ ifneq ($(wildcard drivers/dahdi/xpp/firmwares/USB_FW.hex),)
 	@echo "Tarball is not DFSG-compliant. Use './debian/rules get-orig-source'"
 	exit 1
 endif
+	# For DKMS
+	sed -e "s|#CVERSION#|$(CVERSION)|"				 \
+		debian/dkms.conf.in > debian/dkms.conf
+	sed -e "s|#CVERSION#|$(CVERSION)|"				 \
+		debian/dahdi-dkms.install.in > debian/dahdi-dkms.install
+
 	$(MAKE) docs
 	$(MAKE) $(GENERATED_SOURCES)
 
 override_dh_auto_clean:
+	# Delete the generated dkms files
+	rm -f debian/dahdi-dkms.install
+	rm -f debian/dkms.conf
 	rm -f $(GENERATED_SOURCES)
 	rm -f dahdi/include/version.h
 	[ ! -f Makefile ] || $(MAKE) dist-clean || true
