@@ -7,3 +7,9 @@ tor2-request_firmware
 pciradio-request_firmware
 hotplug_mod_params
 dev_attr.patch
+
+# For kernel >= 4.15
+# See https://issues.asterisk.org/jira/browse/DAHLIN-359
+# Not yet accepted upstream
+setup_timer_xpp.patch
+setup_timer_main.patch
