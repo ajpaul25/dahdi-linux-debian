@@ -1,3 +1,21 @@
+dahdi-linux (1:2.11.1.0.20170917~dfsg-4) unstable; urgency=medium
+
+  [ Bernhard Schmidt ]
+  * Make build reproducible
+  * Amend changelog
+
+  [ Petter Reinholdtsen ]
+  * Add support for dkms include autopkgtest test. (Closes: #841004)
+
+  [ Tzafrir Cohen ]
+  * dahdi_dummy is just part of dahdi
+  * Somewhat improved dkms scripts
+  * Fix building on kernel >= 4.15
+  * patch notest: rework and make upstreamable
+  * ignore dkms generated files
+
+ -- Petter Reinholdtsen <pere@debian.org>  Sun, 30 Sep 2018 13:42:35 +0200
+
 dahdi-linux (1:2.11.1.0.20170917~dfsg-3) unstable; urgency=medium
 
   * Add dev_attr.patch: fix building with 4.13 (Closes: #879043)
