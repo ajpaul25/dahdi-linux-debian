@@ -1,11 +1,11 @@
-dahdi-linux.debhelper.log
-dahdi-linux.postinst.debhelper
-dahdi-linux.preinst.debhelper
-dahdi-linux.substvars
+*.debhelper
+*.debhelper.log
+*.substvars
+.debhelper
+dahdi-dkms/
 dahdi-linux/
-dahdi-source.debhelper.log
-dahdi-source.substvars
 dahdi-source/
 debhelper-build-stamp
+dkms.conf
 files
 tmp/
