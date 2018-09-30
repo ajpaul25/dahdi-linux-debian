@@ -12,15 +12,16 @@ fi
 echo "DKMS installation: OK"
 
 #
-# Load the dummy module
+# Load the base DAHDI module
 #
-modprobe dahdi_dummy
+modprobe -r dahdi
+modprobe dahdi
 
 if [ $? -ne 0 ]; then
-	echo "Dummy module load: failed!"
+	echo "DAHDI module load: failed!"
 	exit 1
 fi
-echo "Dummy module load: OK"
+echo "DAHDI module load: OK"
 
 exit 0
 
