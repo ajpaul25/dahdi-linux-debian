@@ -39,7 +39,7 @@ Description: DAHDI telephony interface - source code for kernel driver
 Package: dahdi-dkms
 Section: devel
 Architecture: all
-Depends: ${misc:Depends}, dkms, make, libc6-dev, gcc, wget, gawk
+Depends: ${misc:Depends}, dkms, make, libc6-dev, dpkg-dev, gcc, wget, gawk
 Recommends: dahdi-linux
 Description: DAHDI telephony interface (dkms kernel driver)
  DAHDI (formly Zaptel) is an interface for telephony devices used by e.g.
