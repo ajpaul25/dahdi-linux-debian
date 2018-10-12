@@ -1,3 +1,14 @@
+dahdi-linux (1:2.11.1.0.20170917~dfsg-5) unstable; urgency=medium
+
+  * Added dpkg-dev as dependency for dpkg-architecture used by the
+    dahdi-dkms postinst.
+  * Added appstream metadata in dahdi-dkms package to announce
+    supported hardware (Closes: #838522).
+  * Updated Standards-Version from 4.1.3 to 4.2.1.
+  * Fix two description typos in patches found by lintian.
+
+ -- Petter Reinholdtsen <pere@debian.org>  Fri, 12 Oct 2018 13:35:56 +0200
+
 dahdi-linux (1:2.11.1.0.20170917~dfsg-4) unstable; urgency=medium
 
   [ Bernhard Schmidt ]
