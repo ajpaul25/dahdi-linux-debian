@@ -6,7 +6,7 @@ Last-Update: 2018-01-02
  
 This patch includes a number of out-of-tree DAHDI drivers from the
 dahdi-extra repository. They are all out-of-tree and are highly likely
-not to be included in DAHDI-linux in the forseeable future.
+not to be included in DAHDI-linux in the foreseeable future.
 
 Currently only includes OSLEC, ZapHFC and opvxa1200.
  

@@ -3,7 +3,7 @@ From: Tzafrir Cohen <tzafrir.cohen@xorcom.com>
 Date: Mon, 1 Jan 2018 16:06:25 +0200
 Subject: [PATCH 1/2] xpp: move command_timer functions to xbus-core
 
-Would allow to later fully initializing the command_timer in xbus-core.c
+Would allow one to later fully initializing the command_timer in xbus-core.c
 rather than xbus-pcm.c .
 ---
  drivers/dahdi/xpp/xbus-core.c | 30 ++++++++++++++++++++++++++++++
