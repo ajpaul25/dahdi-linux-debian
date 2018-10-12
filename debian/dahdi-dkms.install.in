@@ -4,3 +4,4 @@ drivers                         usr/src/dahdi-#CVERSION#
 include                         usr/src/dahdi-#CVERSION#
 debian/dkms.conf        	usr/src/dahdi-#CVERSION#
 .version	        	usr/src/dahdi-#CVERSION#
+debian/dahdi-dkms.metainfo.xml  usr/share/metainfo/
