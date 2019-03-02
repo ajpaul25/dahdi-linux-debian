@@ -2,3 +2,7 @@ Tests: dkms-modules
 Depends: dahdi-dkms
 Restrictions: needs-root, isolation-machine
 
+Tests: dynamic-loc-call
+Depends: dahdi-source, module-assistant, dahdi, asterisk-dahdi, asterisk
+Restrictions: needs-root, isolation-machine
+
