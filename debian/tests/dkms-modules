@@ -12,16 +12,27 @@ fi
 echo "DKMS installation: OK"
 
 #
-# Load the base DAHDI module
+# Load all the DAHDI modules:
 #
-modprobe -r dahdi
-modprobe dahdi
 
-if [ $? -ne 0 ]; then
-	echo "DAHDI module load: failed!"
-	exit 1
-fi
-echo "DAHDI module load: OK"
+set -e
+
+# dahdi_vpmadt032_loader is architecture-dependent
+modules=`awk -F'"' '/^BUILT_MODULE_NAME/ {print $2}' debian/dkms.conf | grep -v dahdi_vpmadt032_loader`
+
+echo "Unloading any existing modules:"
+/usr/share/dahdi/dahdi-modules unload
+echo "Loading all modules: $modules"
+for module in $modules; do
+	modprobe $module
+done
+
+echo "Unloading them all again"
+/usr/share/dahdi/dahdi-modules unload
+modprobe -r echo
+
+
+echo "DAHDI modules load: OK"
 
 exit 0
 
