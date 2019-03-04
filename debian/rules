@@ -10,7 +10,8 @@ ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 endif
 
 # For DKMS. Use the full release (e.g.: 2.2.1+dfsg-1ubuntu1)
-CVERSION := $(shell dpkg-parsechangelog | grep '^Version:' | cut -d' ' -f2 | cut -d\: -f2)
+include /usr/share/dpkg/pkg-info.mk
+CVERSION = DEB_VERSION
 
 ## MODULE-ASSISTANT STUFF
 # prefix of the target package name
