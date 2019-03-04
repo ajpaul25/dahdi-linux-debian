@@ -9,6 +9,7 @@ Standards-Version: 4.2.1
 Homepage: http://www.asterisk.org/
 Vcs-Git: https://salsa.debian.org/pkg-voip-team/dahdi-linux.git
 Vcs-Browser: https://salsa.debian.org/pkg-voip-team/dahdi-linux.git
+Rules-Requires-Root: no
 
 Package: dahdi-linux
 Architecture: all
