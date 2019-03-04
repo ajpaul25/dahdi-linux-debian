@@ -25,15 +25,6 @@ MA_DIR ?= /usr/share/modass
 # load default rules
 -include $(MA_DIR)/include/common-rules.make
 
-DEBVERSION:=$(shell head -n 1 debian/changelog \
-		    | sed -e 's/^[^(]*(\([^)]*\)).*/\1/')
-DEB_BASE_VERSION:=$(shell echo $(DEBVERSION) | sed -e 's/^.*://' -e 's/-[0-9~.a-z]*$$//')
-UPVERSION:=$(shell echo $(DEB_BASE_VERSION) | sed -e 's/[~+]dfsg[0-9]*\(~\|$$\)/\1/' -e 's/~\(rc\|beta\)/-\1/')
-
-UPFILENAME := $(PACKAGE_SRC)_$(UPVERSION).orig.tar.gz
-FILENAME := $(PACKAGE_SRC)_$(DEB_BASE_VERSION).orig.tar.gz
-URL := http://downloads.asterisk.org/pub/telephony/$(PACKAGE_SRC)/releases/$(PACKAGE_SRC)-$(UPVERSION).tar.gz
-
 # If the makefile was properly-writen, there was a good separation 
 # between kernel and userspace. As things stand now I'd like to work
 # around problems with bilding stuff with HOSTCC by simply providing 
@@ -120,26 +111,3 @@ override_dh_install:
 	tar cjf debian/$(SKPG)/usr/src/$(PREFIX).tar.bz2 \
 	  -C $(TARPARDIR) modules \
 	  --mode=go=rX,u+rw,a-s --sort=name --mtime="$(BUILD_DATE)"
-
-print-version:
-	@@echo "Debian version:          $(DEBVERSION)"
-	@@echo "Upstream version:        $(UPVERSION)"
-
-TARBALL_DIR=../tarballs/$(PACKAGE_SRC)-$(UPVERSION).tmp
-get-orig-source:
-	@@dh_testdir
-	@@[ -d ../tarballs/. ]||mkdir -p ../tarballs
-	@@echo Downloading $(UPFILENAME) from $(URL) ...
-	@@wget  -nv -T10 -t3 --verbose -O ../tarballs/$(UPFILENAME) $(URL)
-	@@echo Repacking as DFSG-free...
-	@@mkdir -p $(TARBALL_DIR)/
-	@@cd $(TARBALL_DIR) ; \
-	tar xfz ../$(UPFILENAME)
-	@@rm -rf $(TARBALL_DIR)/$(PACKAGE_SRC)-$(UPVERSION)/drivers/dahdi/xpp/firmwares/*.hex
-	@@rm -f $(TARBALL_DIR)/$(PACKAGE_SRC)-$(UPVERSION)/drivers/dahdi/*.rbt
-	@@cd $(TARBALL_DIR) ; \
-	tar cfz ../$(FILENAME) *
-	@@echo Cleaning up...
-	@@$(RM) -rf $(TARBALL_DIR)/
-	@@$(RM) -f ../tarballs/$(UPFILENAME)
-
