@@ -3,7 +3,7 @@ Section: comm
 Priority: optional
 Maintainer: Debian VoIP Team <pkg-voip-maintainers@lists.alioth.debian.org>
 Uploaders: Tzafrir Cohen <tzafrir@debian.org>, Mark Purcell <msp@debian.org>
-Build-Depends: debhelper (>=  10), bzip2, asciidoc-base | asciidoc,
+Build-Depends: debhelper (>= 12), bzip2, asciidoc-base | asciidoc,
  tar (>= 1.28)
 Standards-Version: 4.2.1
 Homepage: http://www.asterisk.org/

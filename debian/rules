@@ -110,3 +110,4 @@ override_dh_install:
 	tar cjf debian/$(SKPG)/usr/src/$(PREFIX).tar.bz2 \
 	  -C $(TARPARDIR) modules \
 	  --mode=go=rX,u+rw,a-s --sort=name --mtime="$(BUILD_DATE)"
+	rm -rf $(TARPARDIR)/modules
