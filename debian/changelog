@@ -1,3 +1,18 @@
+dahdi-linux (1:2.11.1.0.20170917~dfsg-6) unstable; urgency=medium
+
+  * install dahdi-modules
+  * A new test: dynamic-loc-call
+  * dkms: also install oct612 module (Closes: #922008)
+  * dkms test: try loading all modules
+  * Rules-Require-Root: no
+  * rules: remove get-orig-source
+  * trivial lintian fixes
+  * debhelper compat level 12
+  * rules: Use dpkg makefiles instead of our own parsing
+  * tests: uninstall modules
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Mon, 04 Mar 2019 23:29:36 +0200
+
 dahdi-linux (1:2.11.1.0.20170917~dfsg-5) unstable; urgency=medium
 
   * Added dpkg-dev as dependency for dpkg-architecture used by the
