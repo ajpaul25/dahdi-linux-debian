@@ -95,7 +95,7 @@ dahdi-linux (1:2.10.0~dfsg-1) unstable; urgency=low
     - Patch dahdi_linux_extra updated to the 2.9.2 branch.
   * Use hotplug support:
     - patch hotplug_mod_params: change default of module parameters.
-  * Multiarch support. 
+  * Multiarch support.
   * udev rules moved to package dahdi (in source package dahdi-tools).
   * Add a test for non-free files in case uscan was used.
   * Remove unused variables from control file.
@@ -115,7 +115,7 @@ dahdi-linux (1:2.7.0.1~dfsg-1) unstable; urgency=low
 
 dahdi-linux (1:2.7.0+dfsg-1) unstable; urgency=low
 
-  [ Tzafrir Cohen ] 
+  [ Tzafrir Cohen ]
   * New upstream release:
     - Patch fix_define_dev dropped: merged upstream.
     - Patch fix_xpp_usermode dropped: merged upstream.
@@ -155,13 +155,13 @@ dahdi-linux (1:2.5.0.1+dfsg-1) unstable; urgency=low
   * Updated dahdi-linux-extra:
     - "Upstream" is now a complete git mirror.
     - Actually include ap400 in the list of modules to build.
-    - Updated OpenVox drivers: opvxa1200 is a subdirectory 
+    - Updated OpenVox drivers: opvxa1200 is a subdirectory
     - Updated OpenVox drivers: opvxd115 added (digital cards).
   * Patch define_spinlock: include a (slightly big) build fix from upstream.
   * Standards version 3.9.2 (no change needed).
   * Switch to dh.
   * Patch notest: Remove a bogus upstream 'test' target.
-  * Lintian override for an odd interpteter a dummy kernel module init script. 
+  * Lintian override for an odd interpteter a dummy kernel module init script.
   * Dahdi udev rules are now named 'dahdi-linux.conf'.
   * Patch xpp_fix_2fxs6fxo: bugfix for Xorcom 2FXX6FXO module code.
 
@@ -171,7 +171,7 @@ dahdi-linux (1:2.4.1+dfsg-1) unstable; urgency=low
 
   * New Upstream release.
     - Patch uk_rotary dropped: merged upstream.
-    - Patch oslec_include_2634 dropped: merged upstream. 
+    - Patch oslec_include_2634 dropped: merged upstream.
     - Patch xpp_usb_buffer_2635 dropped: merged upstream.
     - Patch voicebus_sem_h_2635 dropped: merged upstream.
   * dahdi_linux_extra now includes AP400 drivers (Closes: #582095).
@@ -195,7 +195,7 @@ dahdi-linux (1:2.3.0.1+dfsg-2) unstable; urgency=medium
 dahdi-linux (1:2.3.0.1+dfsg-1) unstable; urgency=low
 
   * New upstream version (Closes: #546319).
-  * Patch no_dummy removed: merged upstream. 
+  * Patch no_dummy removed: merged upstream.
   * Patch wcb4xxp_extra_trunk removed: merged upstream.
   * Patch chanmute: make it also explicitly disable the untested
     DAHDI_AUDIO_NOTIFY.
@@ -214,10 +214,10 @@ dahdi-linux (1:2.2.1.1+dfsg-1) unstable; urgency=low
   * Patch wcb4xxp_extra_trunk: backport extra PCI IDs for wcb4xxp
     (more HFC-[248]S cards).
   * Switch to a @debian.org address.
-  * Dpkg V3 format (it was quilt already). 
+  * Dpkg V3 format (it was quilt already).
   * Remove lintian override that is no longer needed.
   * Patch dahdi_linux_extra: manually fix to remove a leading '---'.
-  * dahdi-modules packages now depend on the linux-image versions. 
+  * dahdi-modules packages now depend on the linux-image versions.
   * Other minor updates to the packaging of the dahdi-modules package.
 
  -- Tzafrir Cohen <tzafrir@debian.org>  Sun, 18 Apr 2010 17:14:02 +0300
@@ -229,17 +229,17 @@ dahdi-linux (1:2.2.1+dfsg-1) unstable; urgency=low
   * Dropped patch wcfxo_reset_fix: merged upstream.
   * Section name of dahdi-source: kernel
   * Also provide an example xpp.conf .
-  * Patch uk_rotary (Closes: #546329). 
+  * Patch uk_rotary (Closes: #546329).
   * Override the bogus lintian warning for 'm-a a-i dahdi'
   * Remove some remaining Zaptel left-overs.
   * Replaced extra drivers and patches with huge patch dahdi_linux_extra
     (Closes: #564720).
-  * Patch xpp_udev_rules_2632: fix XPP udev rules (Closes: #562024). 
-  * Also copy the .version file, to make sure modules have versions. 
+  * Patch xpp_udev_rules_2632: fix XPP udev rules (Closes: #562024).
+  * Also copy the .version file, to make sure modules have versions.
   * Move xpp udev rules under /lib. Name still kept for the sake of
     simplicity (thanks, Lintian, Closes: #566876).
-  * Patch no_dummy: use dahdi internal timing instead of dahdi_dummy. 
-  * Patch chanmute: Enable CHANMUTE optimization (for xpp, mostly). 
+  * Patch no_dummy: use dahdi internal timing instead of dahdi_dummy.
+  * Patch chanmute: Enable CHANMUTE optimization (for xpp, mostly).
 
   [ Mark Purcell ]
   * Cleanup debian/watch
@@ -252,19 +252,19 @@ dahdi-linux (1:2.2.0.2~dfsg-1) unstable; urgency=low
   * New openvox drivers: r113 from their SVN.
   * Fix copyright file for origin of OpenVox drivers.
   * Use new zaphfc drivers (r5) from http://code.google.com/p/zaphfc/ .
-    Note that those use hardhdlc in system.conf (Closes: #532345). 
+    Note that those use hardhdlc in system.conf (Closes: #532345).
   * Remove obsolete bristuff drivers we don't build anyway.
-    Leave vzaphfc for now as this is practically upstream (Completely 
+    Leave vzaphfc for now as this is practically upstream (Completely
    closes: #548061).
   * Not applying bri_dchan. Astribank BRI spans will use hardhdlc.
   * Patch wcfxo_reset_fix: Closes: #546331 .
   * Replace 'dh_clean -k' with dh_prep
   * Standards version 3.8.3 (no change needed).
-  * Patch mmx_auto: relied on ARCH to tell between i386 and x86_64, which 
+  * Patch mmx_auto: relied on ARCH to tell between i386 and x86_64, which
     is not a good idea on newer kernels. Use DAHDI_ARCH instead.
   * Remove useless postinst and preinst. debhelper adds them anyway
-    (and with the -e). 
-  * Do include examples of dahdi-linux . 
+    (and with the -e).
+  * Do include examples of dahdi-linux .
 
  -- Tzafrir Cohen <tzafrir.cohen@xorcom.com>  Sun, 04 Oct 2009 22:47:30 +0200
 
@@ -274,7 +274,7 @@ dahdi-linux (1:2.2.0~dfsg~rc5-1) unstable; urgency=low
   * New upstream release
 
   [ Tzafrir Cohen ]
-  * Enable MMX optimization on i386 that supports it (x86, not x86_64). 
+  * Enable MMX optimization on i386 that supports it (x86, not x86_64).
     Doubles OSLEC's performance:
     - Adds patches mmx_auto and mmx_fix from upstream bug report.
     - Fixes patch oslec_kbuild to use it if enabled.
@@ -292,11 +292,11 @@ dahdi-linux (1:2.2.0~dfsg~rc4-1) unstable; urgency=low
   * Actually build OpenVox drivers.
   * opvxa1200.c: rev. 1.4.12.4 (battery fixes and such)
   * Fix '${match}' in udev rules file (hardwire).
-  * no_firmware_download: Disable downloading a binary kernel module at 
+  * no_firmware_download: Disable downloading a binary kernel module at
     build time.
 
   [ Victor Seva ]
-  * fix debian/watch. 
+  * fix debian/watch.
 
  -- Mark Purcell <msp@debian.org>  Wed, 20 May 2009 07:22:46 +1000
 
@@ -304,22 +304,22 @@ dahdi-linux (1:2.1.0.4~dfsg-1) experimental; urgency=low
 
   [ Tzafrir Cohen ]
   * Zaptel renamed DAHDI and split to dahdi-linux and dahdi-tools.
-  * DAHDI is incompatible (ABI and API) with Zaptel. All modules need to 
+  * DAHDI is incompatible (ABI and API) with Zaptel. All modules need to
     be adapted.
   * OSLEC wrapper included upstream. Includeing a version of the OSLEC code
     from the kernel staging directory.
     - Patch oslec_kernelorg: Upstream kernel.org OSLEC code.
   * Dropping some aparantly unused external Zaptel drivers.
   * Extra drivers moved from kernel/ to drivers/dahdi/ to fit the kernel tree.
-  * UDEV rules are handled here as well. No need to change device names, 
+  * UDEV rules are handled here as well. No need to change device names,
     only set permissions.
-  * Patch fix_readme_astribank: Fix an asciidoc formatting issue. 
+  * Patch fix_readme_astribank: Fix an asciidoc formatting issue.
   * Patch oslec_kbuild: Make oslec's build unconditional.
   * Fix for zaphfc with DAHDI (by  Timo Teräs <timo.teras@iki.fi>)
   * qozap no longer included: Use wcb4xxp instead.
   * ztgsm no longer built: nobody really used it.
   * cwain and vzaphfc currently included but not built.
-  * Don't generate static device files automatically. Provide a script 
+  * Don't generate static device files automatically. Provide a script
     to do that. Until we know if there is an actual use for the non-udev
     setup.
 
@@ -327,7 +327,7 @@ dahdi-linux (1:2.1.0.4~dfsg-1) experimental; urgency=low
   * Update Description: fixes description-starts-with-package-name
   * Add ${misc:Depends} - debhelper-but-no-misc-depends
   * Add myself to uploaders
-  * debian/compat -> 7 
+  * debian/compat -> 7
     - Fixes:package-uses-deprecated-debhelper-compat-version
   * Upload to experimental while we await NEW & debian-release
 
@@ -336,7 +336,7 @@ dahdi-linux (1:2.1.0.4~dfsg-1) experimental; urgency=low
 zaptel (1:1.4.11~dfsg-3) unstable; urgency=low
 
   * zaptel.init: exit on a different condition: Nicer handling of ztdummy.
-  * zaptel.init: Give a sane default to XPP_SYNC. 
+  * zaptel.init: Give a sane default to XPP_SYNC.
 
  -- Tzafrir Cohen <tzafrir.cohen@xorcom.com>  Mon, 03 Nov 2008 09:35:23 +0200
 
@@ -358,7 +358,7 @@ zaptel (1:1.4.11~dfsg-2) unstable; urgency=low
   * Patch device_class_2626: Fix building 2.6.26 (Closes: #493397).
   * Using dh_lintian for lintian overrides, hence requiring debhelper 6.0.7.
   * Lintian: we know we have direct changes. Too bad we're half-upstream :-(
-  * Fix doc-base section names. 
+  * Fix doc-base section names.
 
  -- Tzafrir Cohen <tzafrir.cohen@xorcom.com>  Thu, 28 Aug 2008 22:58:23 +0300
 
@@ -438,7 +438,7 @@ zaptel (1:1.4.9.2~dfsg-1) unstable; urgency=low
     (Closes: #447245).
   * Adjusted lintian overrides: mknod is now called from a function.
   * Adjust vzaphfc to netdevice API changes in kernel 2.6.24.
-  * Once again ignoring 'make distclean' errors: it will fail if we don't 
+  * Once again ignoring 'make distclean' errors: it will fail if we don't
     have kernel sources / headers for current kernel :-( .
   * Remove some unnecessary changes from the florz zaphfc patch - fixes zaphfc
     warning.
@@ -550,7 +550,7 @@ zaptel (1:1.4.5.1~dfsg-1) unstable; urgency=low
 zaptel (1:1.4.5~dfsg-1) unstable; urgency=low
 
   * New Upstream Maintenance Release
-  - support for Digium's new 32 channel hardware echo canceler 
+  - support for Digium's new 32 channel hardware echo canceler
   (VPMADT032) for the TDM800P and TDM2400P
 
   [ Tzafrir Cohen ]
@@ -603,8 +603,8 @@ zaptel (1:1.4.4~dfsg-1) unstable; urgency=low
 zaptel (1:1.4.3~dfsg-2) unstable; urgency=low
 
   [ Tzafrir Cohen ]
-  * Fixed and re-added zaptel_perl. 
-  * And added zaptel_hardware (zaptel hardware lister), just for fun. 
+  * Fixed and re-added zaptel_perl.
+  * And added zaptel_hardware (zaptel hardware lister), just for fun.
 
  -- Tzafrir Cohen <tzafrir.cohen@xorcom.com>  Sat, 09 Jun 2007 03:36:17 +0300
 
@@ -920,7 +920,7 @@ zaptel (1:1.2.4-1) unstable; urgency=low
   * Makefile_kbuild.dpatch: modified, as it was not properly merged in
     upstream
   * Makefile_bristuff.dpatch: really build zaptel modules again
-  * Makefile_xpp: fixed. 
+  * Makefile_xpp: fixed.
   * debian/modulestest: a script for postbuild of zaptel modules from a svn
     build
   * zaptel-source: removing unnecessary dependency on dpatch
@@ -930,7 +930,7 @@ zaptel (1:1.2.4-1) unstable; urgency=low
 zaptel (1:1.2.3-2) unstable; urgency=low
 
   * bristuff 0.3.0-PRE1k. Also, renamed the dpatch to simply "bristuff"
-  * updated version in dot_version.dpatch. 
+  * updated version in dot_version.dpatch.
   * Include build_tools and .version in copied files
   * newer versions of genzaptelconf and xpp.dpatch
 
@@ -957,7 +957,7 @@ zaptel (1:1.2.1-3) unstable; urgency=low
 
 zaptel (1:1.2.1-2) unstable; urgency=low
 
-  * Added bristuff 0.3.0-PRE1d patch. bristuff re-enabled. 
+  * Added bristuff 0.3.0-PRE1d patch. bristuff re-enabled.
     (Closes: #340627, #344432)
   * Documentation fixes (Closes: #316801)
   * Makefile_targets.dpatch is ba its small self
@@ -1081,9 +1081,9 @@ zaptel (1:1.0.9.1-3) unstable; urgency=low
 zaptel (1:1.0.9.1-2) unstable; urgency=low
 
   * Closes: #302836: zaptel-source: zaphfc module missing after
-    compiling modules. 
+    compiling modules.
   * Closes: #323753: zaptel-source: cannot compile zaphfc in unstable
-    with gcc-4.0.1. 
+    with gcc-4.0.1.
 
  -- Santiago Ruano Rincon <santiago@unicauca.edu.co>  Fri, 19 Aug 2005 00:40:56 -0500
 
@@ -1129,7 +1129,7 @@ zaptel (1:1.0.9-3) unstable; urgency=low
 zaptel (1:1.0.9-2) unstable; urgency=low
 
   * Import bristuff-0.2.0-RC8h.dpatch
-  * Enable rtia.dpatch 
+  * Enable rtia.dpatch
 
  -- Mark Purcell <msp@debian.org>  Mon,  4 Jul 2005 02:35:37 +0100
 
@@ -1137,7 +1137,7 @@ zaptel (1:1.0.9-1) unstable; urgency=low
 
   * New upstream release
   * Disable bristuff to allow 1.0.9 upload
-  * Disable rtia to allow 1.0.9 upload 
+  * Disable rtia to allow 1.0.9 upload
 
  -- Mark Purcell <msp@debian.org>  Sun,  3 Jul 2005 15:51:32 +0100
 
@@ -1214,7 +1214,7 @@ zaptel (1:1.0.7-2) unstable; urgency=medium
 
   * Kilian Krause:
     + Increased urgency for fixing RC-bug and this is the last deb to
-      allow the whole Debian VoIP suit proceed to testing. 
+      allow the whole Debian VoIP suit proceed to testing.
 
  -- Jose Carlos Garcia Sogo <jsogo@debian.org>  Sat,  2 Apr 2005 01:14:23 +0200
 
@@ -1246,7 +1246,7 @@ zaptel (1:1.0.4-3) unstable; urgency=low
  -- Kilian Krause <kk@verfaction.de>  Thu, 24 Feb 2005 01:42:36 +0100
 
 zaptel (1:1.0.4-2) experimental; urgency=low
-  
+
   * Better "use" of uname -r in Makefile for zaptel-source
 
  -- Santiago Ruano Rincon <santiago@unicauca.edu.co>  Mon, 21 Feb 2005 00:27:14 -0500
@@ -1262,8 +1262,8 @@ zaptel (1:1.0.4-1) experimental; urgency=low
  -- Santiago Ruano Rincon <santiago@unicauca.edu.co>  Wed, 26 Jan 2005 23:05:20 -0500
 
 zaptel (1:1.0.2-2) unstable; urgency=low
-                                                                                                           
-  * libtonezone out of zaptel-source 
+
+  * libtonezone out of zaptel-source
   * /dev/zap/  are now created by zaptel.postinst and deleted by
     zaptel.postrm. Now, the zap devices match with the upstream version
     (Closes: #274384).
@@ -1273,13 +1273,13 @@ zaptel (1:1.0.2-2) unstable; urgency=low
  -- Santiago Ruano Rincon <santiago@unicauca.edu.co>  Wed, 24 Nov 2004 22:05:52 -0500
 
 zaptel (1:1.0.2-1) unstable; urgency=low
-                                                                                                           
+
   * New upstream release (zaptel-1.0.2)
-                                                                                                           
+
  -- Santiago Ruano Rincon <santiago@unicauca.edu.co>  Sat, 30 Oct 2004 00:51:54 -0500
 
 zaptel (1:1.0.0-2) unstable; urgency=low
- 
+
   * New maintainer (Closes: #251938).
   * Man pages created for ztcfg, ztmonitor and zttool
   (Closes: #274632, #274633, #274634).
@@ -1288,7 +1288,7 @@ zaptel (1:1.0.0-2) unstable; urgency=low
   * zaptel-modules can be build from zaptel-source with
   make-kpkg (Closes: #274085).
   * Now it compiles for 2.6 Kernels (Closes: #251930).
-  
+
  -- Santiago Ruano Rincon <santiago@unicauca.edu.co>  Sun, 26 Sep 2004 02:05:44 -0500
 
 zaptel (1:1.0.0-1) unstable; urgency=low
@@ -1307,7 +1307,7 @@ zaptel (1:0.8.1+1.0-RC2-1) unstable; urgency=low
 zaptel (1:0.8.1+1.0-RC1-1) unstable; urgency=low
 
   * New upstream release
-  * Add a debian/watch file 
+  * Add a debian/watch file
 
  -- Mark Purcell <msp@debian.org>  Wed, 21 Jul 2004 17:51:22 +1000
 
@@ -1388,4 +1388,3 @@ zaptel (0.cvs.20020624-1) unstable; urgency=low
   * Initial Release (Closes: #150874)
 
  -- Matt Zimmerman <mdz@debian.org>  Mon, 17 Jun 2002 10:31:21 -0400
-

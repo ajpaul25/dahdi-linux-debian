@@ -25,9 +25,9 @@ MA_DIR ?= /usr/share/modass
 # load default rules
 -include $(MA_DIR)/include/common-rules.make
 
-# If the makefile was properly-writen, there was a good separation 
+# If the makefile was properly-writen, there was a good separation
 # between kernel and userspace. As things stand now I'd like to work
-# around problems with bilding stuff with HOSTCC by simply providing 
+# around problems with bilding stuff with HOSTCC by simply providing
 # the generated headers as part of the source:
 GENERATED_SOURCES := include/dahdi/version.h
 BUILD_DATE=$(shell dpkg-parsechangelog --show-field Date)
@@ -44,7 +44,7 @@ binary-modules: prep-deb-files
 	dh_testroot
 	dh_prep
 	#cp -a $(CURDIR)/debian/generated/* .
-	make modules KERNEL_SOURCES=$(KSRC) MODVERSIONS=detect KERNEL=linux-$(KVERS) 
+	make modules KERNEL_SOURCES=$(KSRC) MODVERSIONS=detect KERNEL=linux-$(KVERS)
 	make install-modules KERNELRELEASE=$(KVERS) DESTDIR=$(CURDIR)/debian/$(PKGNAME)
 	# The modules are way too big. This is only in kernel 2.6
 	# (Removed for now: breaks cross-building)
@@ -63,7 +63,6 @@ binary-modules: prep-deb-files
 
 ## END OF M-A SECTION
 
-# FIXME: this should be done by Files-Exclude in debian/copyright:
 override_dh_auto_build:
 ifneq ($(wildcard drivers/dahdi/xpp/firmwares/USB_FW.hex),)
 	@echo "Tarball is not DFSG-compliant. Use './debian/rules get-orig-source'"
