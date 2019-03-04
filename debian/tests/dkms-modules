@@ -31,6 +31,8 @@ echo "Unloading them all again"
 /usr/share/dahdi/dahdi-modules unload
 modprobe -r echo
 
+# uninstall, to not get in the way of the m-a test
+dkms uninstall dahdi/`dkms status dahdi | cut -d, -f2 | head -n1` --all
 
 echo "DAHDI modules load: OK"
 
