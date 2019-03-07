@@ -34,7 +34,7 @@ GENERATED_SOURCES := include/dahdi/version.h
 BUILD_DATE=$(shell dpkg-parsechangelog --show-field Date)
 
 %:
-	dh $@
+	dh $@ --with dkms
 
 kdist_clean: clean
 
@@ -72,8 +72,6 @@ endif
 	# For DKMS
 	sed -e "s|#CVERSION#|$(CVERSION)|"				 \
 		debian/dkms.conf.in > debian/dkms.conf
-	sed -e "s|#CVERSION#|$(CVERSION)|"				 \
-		debian/dahdi-dkms.install.in > debian/dahdi-dkms.install
 
 	$(MAKE) docs
 	$(MAKE) $(GENERATED_SOURCES)
