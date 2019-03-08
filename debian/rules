@@ -72,6 +72,8 @@ endif
 	# For DKMS
 	sed -e "s|#CVERSION#|$(CVERSION)|"				 \
 		debian/dkms.conf.in > debian/dkms.conf
+	sed -e "s|#CVERSION#|$(CVERSION)|"				 \
+		debian/dahdi-dkms.install.in > debian/dahdi-dkms.install
 
 	$(MAKE) docs
 	$(MAKE) $(GENERATED_SOURCES)
