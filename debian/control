@@ -6,7 +6,7 @@ Uploaders: Tzafrir Cohen <tzafrir@debian.org>, Mark Purcell <msp@debian.org>
 Build-Depends: debhelper (>= 12), bzip2, asciidoc-base | asciidoc,
  dkms,
  tar (>= 1.28)
-Standards-Version: 4.2.1
+Standards-Version: 4.3.0
 Homepage: http://www.asterisk.org/
 Vcs-Git: https://salsa.debian.org/pkg-voip-team/dahdi-linux.git
 Vcs-Browser: https://salsa.debian.org/pkg-voip-team/dahdi-linux
