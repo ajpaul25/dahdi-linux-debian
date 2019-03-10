@@ -34,7 +34,7 @@ GENERATED_SOURCES := include/dahdi/version.h
 BUILD_DATE=$(shell dpkg-parsechangelog --show-field Date)
 
 %:
-	dh $@ --with dkms
+	dh $@
 
 kdist_clean: clean
 
@@ -112,3 +112,6 @@ override_dh_install:
 	  -C $(TARPARDIR) modules \
 	  --mode=go=rX,u+rw,a-s --sort=name --mtime="$(BUILD_DATE)"
 	rm -rf $(TARPARDIR)/modules
+
+	# Adding a call explicitly, as 'dh --with dkms' breaks m-i
+	dh_dkms
