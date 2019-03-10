@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e
 #
 # Check:
@@ -13,6 +12,7 @@ data_dir="debian/tests/dynamic-loc-data"
 test_results_dir="/var/log/asterisk/testresults"
 num_spans=2
 num_chans=48
+m_a="m-a -i -t -q"
 
 die() {
 	echo "[E] $@"
@@ -24,9 +24,12 @@ log() {
 }
 
 cleanup() {
-	dahdi_span_assignments remove || :
+	dahdi_span_assignments remove 2>&1 || :
 	/usr/share/dahdi/dahdi-modules unload || :
-	dpkg --purge `dpkg-query -W 'dahdi-modules-*' | awk '{print $1}'` 2>/dev/null
+	packages_to_remove=`dpkg-query -W 'dahdi-modules-*' 2>/dev/null | awk '{print $1}'`
+	if [ "$packages_to_remove" ]; then
+		dpkg --purge $packages_to_remove
+	fi
 }
 
 setup() {
@@ -38,8 +41,8 @@ setup() {
 # Build and install module using module-assistant.
 # Does nothing if module is already built.
 m_a_mod_build() {
-	m-a -i -t prepare
-	m-a -i -t a-i dahdi
+	$m_a prepare 2>&1
+	$m_a a-i dahdi 2>&1
 	if ! m-a list dahdi | grep -q 'deb$'; then
 		die "Module Assistant dahdi installation: failed for $(uname -r)."
 	fi
@@ -96,8 +99,7 @@ test_asterisk_call() {
 }
 
 # initial cleanup: start with a clean slate.
-# 2>/dev/null: we get ugly warnings if dahdi was not already loaded
-cleanup 2>/dev/null
+cleanup 2>&1
 setup
 
 m_a_mod_build
@@ -107,6 +109,10 @@ test_asterisk_call
 # Final cleanup, because I don't want to leave the DAHDI modules loaded.
 # Asterisk is left running.
 cleanup
+
+if lsmod | grep dahdi; then
+	die "a DAHDI module is still loaded. Aborting"
+fi
 
 exit 0
 
