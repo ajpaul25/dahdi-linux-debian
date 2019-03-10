@@ -3,6 +3,9 @@
 *.substvars
 .debhelper
 dahdi-dkms/
+# Generated at build time:
+dahdi-dkms.install
+
 dahdi-linux/
 dahdi-source/
 debhelper-build-stamp
