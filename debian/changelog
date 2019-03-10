@@ -1,3 +1,16 @@
+dahdi-linux (1:2.11.1.0.20170917~dfsg-7) unstable; urgency=medium
+
+  * dkms: use standard scripts (Closes: #923983).
+  * work around #923983 at upgrade time.
+  * Use dh_dkms instead of dh --with dkms, for the m-a -generated package.
+  * Standard version 4.3.0.
+  * More comprehensive and robust autopkgtest tests.
+    - The dkms-modules test is skippable for now.
+  * debian/dahdi-dkms.install is a generated file.
+  * dkms metainfo: same license as source.
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Sun, 10 Mar 2019 15:49:50 +0200
+
 dahdi-linux (1:2.11.1.0.20170917~dfsg-6) unstable; urgency=medium
 
   * install dahdi-modules
